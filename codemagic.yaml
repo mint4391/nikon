@@ -3,7 +3,7 @@ workflows:
   android-workflow:
     name: Android Build Workflow
     max_build_duration: 60
-    instance_type: linux
+    instance_type: linux_x2
     environment:
       groups:
         - ../cache_credentials # 如果有加密变量可放这
@@ -20,7 +20,7 @@ workflows:
           chmod +x gradlew
           ./gradlew assembleDebug
     artifacts:
-      - app/build/outputs/apk/**/*.apk
+      - build/outputs/apk/**/*.apk
     publishing:
       email:
         recipients:
