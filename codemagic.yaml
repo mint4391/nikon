@@ -1,0 +1,27 @@
+# codemagic.yaml 放在项目根目录
+workflows:
+  android-workflow:
+    name: Android Build Workflow
+    max_build_duration: 60
+    instance_type: linux
+    environment:
+      groups:
+        - ../cache_credentials # 如果有加密变量可放这
+      vars:
+        PACKAGE_NAME: "com.nikon.pkg" # 建议改成您的包名
+      node: latest
+      java: 17
+    scripts:
+      - name: Set up local.properties
+        script: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+      - name: Build Android APK
+        script: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+    artifacts:
+      - app/build/outputs/apk/**/*.apk
+    publishing:
+      email:
+        recipients:
+          - xzhou4391@gmail.com # 填写您的邮箱，构建成功会发给您
